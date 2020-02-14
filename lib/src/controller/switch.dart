@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form/src/controller/controller.dart';
-import 'package:flutter_form/src/schema//schema.dart';
 import 'package:flutter_form/src/schema/switch.dart';
 
-class SwitchController extends FieldController {
+class SwitchController extends FieldController<SwitchSchema> {
   bool _value;
-  SwitchController(SwitchSchema schema) : super(schema as FormSchema) {
+  SwitchController(SwitchSchema schema) : super(schema) {
     this._value = false;
   }
 

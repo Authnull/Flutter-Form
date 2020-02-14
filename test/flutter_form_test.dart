@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('create field', () {
-    final TextController text = TextController('example');
-    expect(text.field, 'example');
+    final TextSchema schema = TextSchema('example');
+    final TextController text = TextController(schema);
+    expect(text.getField(), 'example');
   });
 }
