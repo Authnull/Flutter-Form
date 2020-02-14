@@ -1,5 +1,5 @@
 library flutter_form;
 
-export "src/controller.dart";
-export "src/schema/schema.dart";
-export "src/schema/text.dart";
+export "src/form.dart";
+export "src/controller/controller.dart";
+export "src/controller/text.dart";
