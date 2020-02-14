@@ -10,7 +10,7 @@ class Form {
   Map<String, dynamic> summarize() {
     final Map<String, dynamic> result = new LinkedHashMap();
     for (FieldController controller in this.controllers) {
-      result[controller.field] = controller.getValue();
+      result[controller.getField()] = controller.getValue();
     }
 
     return result;

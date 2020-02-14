@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form/src/controller/controller.dart';
+import 'package:flutter_form/src/schema//schema.dart';
+import 'package:flutter_form/src/schema/text.dart';
 
 class TextController extends FieldController {
   final _controller = TextEditingController();
-  TextController(String field) : super(field);
+  TextController(TextSchema schema) : super(schema as FormSchema);
+
+  @override
+  String getField() {
+    return this.schema.field;
+  }
 
   @override
   String getValue() {
