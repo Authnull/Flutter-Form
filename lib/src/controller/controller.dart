@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 abstract class FieldController {
   final String field;
 
@@ -5,4 +7,5 @@ abstract class FieldController {
 
   dynamic getValue();
   void Function(dynamic value) getSetValueFunction();
+  TextEditingController getTextEditingController();
 }
