@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -64,34 +62,15 @@ class DatePickerFormField extends FormField<DateTime> {
                     ? DateTime(DateTime.now().year - 1)
                     : firstDate;
                 DateTime endDate = lastDate == null ? DateTime(2100) : lastDate;
-                if (Platform.isAndroid) {
-                  date = await showDatePicker(
-                      context: context,
-                      initialDate:
-                          state.value != null ? state.value : initialDate,
-                      firstDate: startDate,
-                      lastDate: endDate);
-                  if (date != null) {
-                    state.didChange(date);
-                    state.save();
-                  }
-                } else {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext builder) {
-                        return Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          child: CupertinoDatePicker(
-                            mode: CupertinoDatePickerMode.date,
-                            onDateTimeChanged: (DateTime dateTime) =>
-                                state.didChange(dateTime),
-                            initialDateTime:
-                                state.value != null ? state.value : initialDate,
-                            minimumYear: startDate.year,
-                            maximumYear: endDate.year,
-                          ),
-                        );
-                      });
+                date = await showDatePicker(
+                    context: context,
+                    initialDate:
+                        state.value != null ? state.value : initialDate,
+                    firstDate: startDate,
+                    lastDate: endDate);
+                if (date != null) {
+                  state.didChange(date);
+                  state.save();
                 }
               },
             );
