@@ -42,8 +42,9 @@ class _FormExampleState extends State<FormExample> {
                   ),
                 ),
                 DatePickerFormField(
+                  allowClear: true,
                   context: context,
-                  initialValue: DateTime.now(),
+                  labelText: "Date Picker",
                   validator: (DateTime dateTime) {
                     if (dateTime == null) {
                       return "Date Time Required";
@@ -54,7 +55,13 @@ class _FormExampleState extends State<FormExample> {
                     print(dateTime);
                     this._data["datePicker"] = dateTime;
                   },
-                )
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    "Value: " + (this._data["datePicker"].toString()),
+                  ),
+                ),
               ],
             ),
           ),

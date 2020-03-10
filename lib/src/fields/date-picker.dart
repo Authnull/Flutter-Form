@@ -5,72 +5,65 @@ class DatePickerFormField extends FormField<DateTime> {
   DatePickerFormField({
     @required BuildContext context,
     String labelText,
+    Icon prefixIcon,
+    InputBorder border,
     FormFieldSetter<DateTime> onSaved,
     FormFieldValidator<DateTime> validator,
-    Color activeColor,
-    Color checkColor,
-    bool dense = false,
     DateTime initialValue,
     DateTime firstDate,
     DateTime lastDate,
     bool autovalidate = false,
-    bool isThreeLine = false,
+    bool allowClear = false,
+    String Function(DateTime date) formatter,
   }) : super(
           onSaved: onSaved,
           validator: validator,
           initialValue: initialValue,
           autovalidate: autovalidate,
           builder: (FormFieldState<DateTime> state) {
+            final String Function(DateTime date) dateFormatter = formatter ==
+                    null
+                ? (DateTime date) =>
+                    "${state.value.month}/${state.value.day}/${state.value.year}"
+                : formatter;
+
+            final bool showClear = allowClear && state.value != null;
+            final String displayValue =
+                state.value != null ? dateFormatter(state.value) : "";
             return InkWell(
               child: InputDecorator(
                 isEmpty: state.value == null,
                 decoration: InputDecoration(
-                  labelText: labelText != null ? labelText : "",
-                  prefixIcon: Icon(Icons.date_range),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(),
-                  ),
+                  labelText: labelText,
+                  prefixIcon: prefixIcon,
+                  border: border,
                   errorText: state.errorText,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      state.value != null
-                          ? "${state.value.month}/${state.value.day}/${state.value.year}"
-                          : "",
-                    ),
-                    state.value != null
+                    Text(displayValue),
+                    showClear
                         ? InkWell(
-                            onTap: (() {
-                              state.reset();
-                            }),
-                            child: Icon(
-                              Icons.clear,
-                              size: 15,
-                            ),
+                            onTap: state.reset,
+                            child: Icon(Icons.clear, size: 15),
                           )
                         : Container(),
                   ],
                 ),
               ),
               onTap: () async {
-                DateTime date;
-                DateTime initialDate =
-                    initialValue == null ? DateTime.now() : initialValue;
-                DateTime startDate = firstDate == null
-                    ? DateTime(DateTime.now().year - 1)
-                    : firstDate;
-                DateTime endDate = lastDate == null ? DateTime(2100) : lastDate;
-                date = await showDatePicker(
-                    context: context,
-                    initialDate:
-                        state.value != null ? state.value : initialDate,
-                    firstDate: startDate,
-                    lastDate: endDate);
+                DateTime date = await showDatePicker(
+                  context: context,
+                  initialDate:
+                      initialValue == null ? DateTime.now() : initialValue,
+                  firstDate: firstDate == null
+                      ? DateTime(DateTime.now().year - 1)
+                      : firstDate,
+                  lastDate: lastDate == null ? DateTime(2100) : lastDate,
+                );
                 if (date != null) {
                   state.didChange(date);
-                  state.save();
                 }
               },
             );
