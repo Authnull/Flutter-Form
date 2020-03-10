@@ -12,6 +12,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Map<String, dynamic> _data = {
     "checkbox": false,
+    "datePicker": null,
   };
   final _formKey = GlobalKey<FormState>();
 
@@ -43,6 +44,20 @@ class _MyAppState extends State<MyApp> {
                       "Value: " + (this._data["checkbox"] ? "true" : "false"),
                     ),
                   ),
+                  DatePickerFormField(
+                    context: context,
+                    initialValue: DateTime.now(),
+                    validator: (DateTime dateTime) {
+                      if (dateTime == null) {
+                        return "Date Time Required";
+                      }
+                      return null;
+                    },
+                    onSaved: (DateTime dateTime) {
+                      print(dateTime);
+                      this._data["datePicker"] = dateTime;
+                    },
+                  )
                 ],
               ),
             ),
